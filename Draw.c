@@ -15,6 +15,7 @@ char* draw_rect_real(char,float,float,float,float,char [],int,int);
 char* draw_line(char,float,float,float, float,char [],int,int);
 char* draw_line_real(char,float,float,float,float,char[],int,int);
 char* draw_tri(char,float,float,float,float,float,float,char[],int,int);
+char* draw_tri_real(char,float,float,float,float,float,float,char[],int,int);
 
 int main(){
 	bool running = true;
@@ -41,9 +42,9 @@ int draw_frame(int c,int r){
 	frame_buffer = draw_pixel_real('#',1,1,frame_buffer,c,r);
 	frame_buffer = draw_pixel_real('#',0,1,frame_buffer,c,r);
 	
-	frame_buffer = draw_line_real('#',0,0,1,1,frame_buffer,c,r);
+	//frame_buffer = draw_line_real('#',0,0,1,1,frame_buffer,c,r);
 	
-	//frame_buffer = draw_tri('#',0,0,10,0,10,20,frame_buffer,c,r);
+	frame_buffer = draw_tri_real('#',0,0,0.5,1,1,0,frame_buffer,c,r);
 	
 	system("cls");
 	printf(frame_buffer);
@@ -83,15 +84,23 @@ char* draw_rect_real(char i,float x1, float y1,float x2, float y2,char f[30000],
 char* draw_line(char i,float x1, float y1,float x2, float y2,char f[30000],int c,int r){
 	int x;
 	int y;
+	bool rev_x;
+	bool rev_y;
 	if(y2<y1){
-		float tmp= y2;
+		float tmp1= y2;
 		y2 = y1;
-		y1= tmp;
+		y1= tmp1;
+		float tmp2= x2;
+		x2 = x1;
+		x1 = tmp2;
 	}
 	if(x2<x1){
-		float tmp= x2;
+		float tmp1= x2;
 		x2 = x1;
-		x1 = tmp;
+		x1 = tmp1;
+		float tmp2= y2;
+		y2 = y1;
+		y1 = tmp2;
 	}
 	if((y2-y1)<=(x2-x1)){
 		for(x= x1;x<x2;x=x+1){
@@ -114,5 +123,9 @@ char* draw_tri(char i,float x1, float y1,float x2, float y2,float x3, float y3,c
 	f = draw_line(i,x1,y1,x2,y2,f,c,r);
 	f = draw_line(i,x2,y2,x3,y3,f,c,r);
 	f = draw_line(i,x3,y3,x1,y1,f,c,r);
+	return f;
+}
+char* draw_tri_real(char i,float x1, float y1,float x2, float y2,float x3, float y3,char f[30000],int c,int r){
+	f = draw_tri(i,cords_t_pixels(c, x1),cords_t_pixels(r, y1),cords_t_pixels(c, x2),cords_t_pixels(r, y2),cords_t_pixels(c, x3),cords_t_pixels(r, y3),f,c,r);
 	return f;
 }
