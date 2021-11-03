@@ -1,10 +1,4 @@
 #include<stdio.h>
-#include<stdlib.h>
-#include<windows.h>
-#include<string.h>
-#include<stdbool.h> 
-#include<stdlib.h>
-#include<conio.h>
 #include"draw.h"
 
 int c;
@@ -40,8 +34,6 @@ void draw_rect_real(char i,float x1, float y1,float x2, float y2){
 void draw_line(char i,float x1, float y1,float x2, float y2){
 	int x;
 	int y;
-	bool rev_x;
-	bool rev_y;
 	if(y2<y1){
 		float tmp1= y2;
 		y2 = y1;
@@ -99,7 +91,7 @@ void draw_frame(){
 	
 	draw_tri_real('#',0.25,0.4,0.5,0.75,0.75,0.1);
 	
-	system("cls");
+	//system("cls");
 	printf(f);
 }
 
