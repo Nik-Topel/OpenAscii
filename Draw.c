@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<math.h>
-#include"draw.h"
+#include<windows.h>
 int c,r;
 char f[30000];
 int real_x(float i){return (i / (1.0 / (c-0.5)))+(c/2);}
