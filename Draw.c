@@ -60,18 +60,18 @@ void draw_line_real(char i,float x1, float y1,float x2, float y2){
 	draw_line(i,cords_t_pixels(c, x1),cords_t_pixels(r, y1),cords_t_pixels(c, x2),cords_t_pixels(r, y2));
 }
 void draw_tri(char i,float x1, float y1,float x2, float y2,float x3, float y3){
-	draw_line(i,x1,y1,x2,y2);
+draw_line(i,x1,y1,x2,y2);
 	draw_line(i,x2,y2,x3,y3);
 	draw_line(i,x3,y3,x1,y1);
 	float diff_X = x3 - x2;
-    float diff_Y = y3 - y2;
-    int pointNum = sqrt(((x3-x2)*(x3-x2))+((y3-y2)*(y3-y2)));
-    float interval_X = diff_X / (pointNum + 1);
-    float interval_Y = diff_Y / (pointNum + 1);
-    for(int x = 1; x <= pointNum; x++)
-    {
+	float diff_Y = y3 - y2;
+	int pointNum = sqrt(((x3-x2)*(x3-x2))+((y3-y2)*(y3-y2)));
+	float interval_X = diff_X / (pointNum + 1);
+	float interval_Y = diff_Y / (pointNum + 1);
+	for(int x = 1; x <= pointNum; x++)
+	{
 		draw_line(i,x1,y1,x2+interval_X*x,y2 + interval_Y*x);
-    }
+	}
 }
 void draw_tri_real(char i,float x1, float y1,float x2, float y2,float x3, float y3){
 	draw_tri(i,cords_t_pixels(c, x1),cords_t_pixels(r, y1),cords_t_pixels(c, x2),cords_t_pixels(r, y2),cords_t_pixels(c, x3),cords_t_pixels(r, y3));
