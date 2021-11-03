@@ -8,13 +8,13 @@
 
 int cords_t_pixels(int, float);
 char* draw_background(char [],int,int);
-char* draw_pixel(char,int,int,char [],int);
+char* draw_pixel(char,int,int,char [],int,int);
 char* draw_pixel_real(char,int,int,char [],int,int);
 char* draw_rect(char,int,int,int,int,char [],int,int);
 char* draw_rect_real(char,float,float,float,float,char [],int,int);
-char* draw_line(char,float,float,float, float,char [],int);
+char* draw_line(char,float,float,float, float,char [],int,int);
 char* draw_line_real(char,float,float,float,float,char[],int,int);
-char* draw_tri(char,float,float,float,float,float,float,char[],int);
+char* draw_tri(char,float,float,float,float,float,float,char[],int,int);
 
 int main(){
 	bool running = true;
@@ -41,7 +41,9 @@ int draw_frame(int c,int r){
 	frame_buffer = draw_pixel_real('#',1,1,frame_buffer,c,r);
 	frame_buffer = draw_pixel_real('#',0,1,frame_buffer,c,r);
 	
-	frame_buffer = draw_tri('#',0,0,10,0,0,10,frame_buffer,c);
+	frame_buffer = draw_line_real('#',0,0,1,1,frame_buffer,c,r);
+	
+	//frame_buffer = draw_tri('#',0,0,10,0,10,20,frame_buffer,c,r);
 	
 	system("cls");
 	printf(frame_buffer);
@@ -59,18 +61,18 @@ char* draw_background(char i[2],int c,int r){
 	}
 	return f;
 }
-char* draw_pixel(char i,int x, int y,char f[30000],int c){
-	f[((y*c)+x)] = i;
+char* draw_pixel(char i,int x, int y,char f[30000],int c, int r){
+	f[(((r-(y +1))*c)+x)] = i;
 	return f;
 }
 char* draw_pixel_real(char i,int x, int y,char f[30000],int c,int r){
-	return draw_pixel(i,cords_t_pixels(c, x),cords_t_pixels(r, y),f,c);
+	return draw_pixel(i,cords_t_pixels(c, x),cords_t_pixels(r, y),f,c,r);
 }
 char* draw_rect(char i,int x1, int y1,int x2, int y2,char f[30000],int c,int r){
 	int x,y;
 	for(x = x1; x < x2; x = x + 1){
 		for(y = y1; y < y2; y = y + 1){
-			draw_pixel(i,x,y,f,c);
+			draw_pixel(i,x,y,f,c,r);
 		}
 	}
 	return f;
@@ -78,28 +80,39 @@ char* draw_rect(char i,int x1, int y1,int x2, int y2,char f[30000],int c,int r){
 char* draw_rect_real(char i,float x1, float y1,float x2, float y2,char f[30000],int c,int r){
 	return draw_rect(i,cords_t_pixels(c, x1),cords_t_pixels(r, y1),cords_t_pixels(c, x2),cords_t_pixels(r, y2),f,c,r);;
 }
-char* draw_line(char i,float x1, float y1,float x2, float y2,char f[30000],int c){
+char* draw_line(char i,float x1, float y1,float x2, float y2,char f[30000],int c,int r){
 	int x;
 	int y;
+	if(y2<y1){
+		float tmp= y2;
+		y2 = y1;
+		y1= tmp;
+	}
+	if(x2<x1){
+		float tmp= x2;
+		x2 = x1;
+		x1 = tmp;
+	}
 	if((y2-y1)<=(x2-x1)){
 		for(x= x1;x<x2;x=x+1){
 			y = (((x-x1)/(x2-x1))*(y2-y1))+y1+0.5;
-			f = draw_pixel(i,x,y,f,c);
+			f = draw_pixel(i,x,y,f,c,r);
 		}
 	}
 	if((x2-x1)<(y2-y1)){
 		for(x= y1;x<y2;x=x+1){
-			y = (int)(((y-y1)/(y2-y1))*(x2-x1))+x1;
-			f = draw_pixel(i,y,x,f,c);
+			y = (((y-y1)/(y2-y1))*(x2-x1))+x1+0.5;
+			f = draw_pixel(i,y,x,f,c,r);
 		}
 	}
 	return f;
 }
 char* draw_line_real(char i,float x1, float y1,float x2, float y2,char f[30000],int c, int r){
-	return draw_line(i,cords_t_pixels(c, x1),cords_t_pixels(r, y1),cords_t_pixels(c, x2),cords_t_pixels(r, y2),f,c);
+	return draw_line(i,cords_t_pixels(c, x1),cords_t_pixels(r, y1),cords_t_pixels(c, x2),cords_t_pixels(r, y2),f,c,r);
 }
-char* draw_tri(char i,float x1, float y1,float x2, float y2,float x3, float y3,char f[30000],int c){
-	f = draw_line(i,x1,y1,x2,y2,f,c);
-	f = draw_line(i,x3,y3,x2,y2,f,c);
-	f = draw_line(i,x1,y1,x3,y3,f,c);
+char* draw_tri(char i,float x1, float y1,float x2, float y2,float x3, float y3,char f[30000],int c,int r){
+	f = draw_line(i,x1,y1,x2,y2,f,c,r);
+	f = draw_line(i,x2,y2,x3,y3,f,c,r);
+	f = draw_line(i,x3,y3,x1,y1,f,c,r);
+	return f;
 }
