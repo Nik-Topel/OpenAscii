@@ -60,7 +60,7 @@ void draw_line_real(char i,float x1, float y1,float x2, float y2){
 	draw_line(i,cords_t_pixels(c, x1),cords_t_pixels(r, y1),cords_t_pixels(c, x2),cords_t_pixels(r, y2));
 }
 void draw_tri(char i,float x1, float y1,float x2, float y2,float x3, float y3){
-draw_line(i,x1,y1,x2,y2);
+	draw_line(i,x1,y1,x2,y2);
 	draw_line(i,x2,y2,x3,y3);
 	draw_line(i,x3,y3,x1,y1);
 	float diff_X = x3 - x2;
