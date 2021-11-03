@@ -1,4 +1,4 @@
-Open-Ascii is a simple graphics engine written in pure c which outputs ascii to a terminal
+OpenAscii is a simple graphics engine written in pure c which outputs ascii to a terminal
 
 Features:
 - Pixel cordinates to proportional cordinates
