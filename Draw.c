@@ -26,21 +26,13 @@ void draw_rect(char i,int x1, int y1,int x2, int y2){
 	for(int x = x1; x < x2; x++){for(int y = y1; y < y2; y++){draw_pixel(i,x,y);}}
 }
 void draw_line(char i,float x1, float y1,float x2, float y2){
-	if(y2<y1){
+	if(y2<y1||x2<x1){
 		float tmp= y2;
 		y2 = y1;
 		y1= tmp;
 		tmp= x2;
 		x2 = x1;
 		x1 = tmp;
-	}
-	if(x2<x1){
-		float tmp= x2;
-		x2 = x1;
-		x1 = tmp;
-		tmp= y2;
-		y2 = y1;
-		y1 = tmp;
 	}
 	if((y2-y1)<=(x2-x1)){
 		for(int x= x1;x<x2;x++){
@@ -68,7 +60,7 @@ void draw_tri(char i,float x1, float y1,float x2, float y2,float x3, float y3){
 }
 void draw_frame(){
 	draw_background(' ');
-	draw_tri('#',real(-0.5,c),real(-0.5,r),real(0,c),real(0.5,r),real(0.5,c),real(-0.5,r));
+	draw_tri('#',real(-0.5,c),real(-0.5,r),real(0,c),real(0.45,r),real(0.5,c),real(-0.5,r));
 	clear_screen();
 	printf(f);
 }
