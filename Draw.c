@@ -2,9 +2,13 @@
 #include<math.h>
 #include<windows.h>
 int c,r;
+double Z0;
 char f[30000];
-int real_x(float i){return (i / (1.0 / (c-0.5)))+(c/2);}
-int real_y(float i){return (i / (1.0 / (r-0.5)))+(r/2);}
+int real(float i,int p){return (i / (1.0 / (p-0.5)))+(p/2);}
+int* Perspective(float x,float y,float z){
+	int o[3]={x*Z0 / (Z0+z),y*Z0 / (Z0+z),z};
+	return o;
+}
 void draw_background(char i){
 	for(int x = 0; x < (r * c); x++){f[x] = i;}
 }
@@ -57,10 +61,10 @@ void draw_tri(char i,float x1, float y1,float x2, float y2,float x3, float y3){
 }
 void draw_frame(){
 	draw_background(' ');
-	draw_pixel('#',real_x(-0.5),real_y(-0.5));
-	draw_pixel('#',real_x(-0.5),real_y(0.5));
-	draw_pixel('#',real_x(0.5),real_y(-0.5));
-	draw_pixel('#',real_x(0.5),real_y(0.5));
+	draw_pixel('#',real(-0.5,c),real(-0.5,r));
+	draw_pixel('#',real(-0.5,c),real(0.5,r));
+	draw_pixel('#',real(0.5,c),real(-0.5,r));
+	draw_pixel('#',real(0.5,c),real(0.5,r));
 	system("cls");
 	printf(f);
 }
@@ -69,6 +73,7 @@ int main(){
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
 	c = csbi.srWindow.Right - csbi.srWindow.Left + 1;
 	r = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+	Z0 = (c / 2.0) / tan((90 / 2.0) * 3.14159265 / 180.0);
 	while(1){
 		draw_frame();
 		if(kbhit()){return 0;}
