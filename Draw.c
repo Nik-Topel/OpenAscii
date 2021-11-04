@@ -1,13 +1,13 @@
 #include<stdio.h>
 #include<math.h>
 #include<windows.h>
-int c,r;double Z0;char f[30000];
-int real(float i,int p){return(i/(1.0/(p-0.5)))+(p/2);}
+double Z0;char f[30000];
+int c,r;
+int rl(float i,int p){return(i/(1.0/(p-0.5)))+(p/2);};
 int* perspective(float x,float y,float z){
 	int o[3]={x*Z0/(Z0+z),y*Z0/(Z0+z),z};return o;}
-void clear_screen(){
-	HANDLE h=GetStdHandle(STD_OUTPUT_HANDLE);
-	COORD coord;coord.X=0;coord.Y=0;
+void crs(){
+	HANDLE h=GetStdHandle(STD_OUTPUT_HANDLE);COORD coord;coord.X=0;coord.Y=0;
 	SetConsoleCursorPosition(h,coord);}
 void draw_background(char i){
 	for(int x=0;x<(r*c);x++){f[x]=i;}}
@@ -33,12 +33,11 @@ void draw_tri(char i,float x1,float y1,float x2,float y2,float x3,float y3){
 	for(int x=1;x<=points;x++){draw_line(i,x1,y1,x2+interval_x*x,y2+interval_y*x);}}
 void draw_frame(){
 	draw_background(' ');
-	draw_tri('#',real(-0.35,c),real(-0.35,r),real(0,c),real(0.35,r),real(0.35,c),real(-0.35,r));
-	clear_screen();
+	draw_tri('#',rl(-0.35,c),rl(-0.35,r),rl(0,c),rl(0.35,r),rl(0.35,c),rl(-0.35,r));
+	crs();
 	printf(f);}
 int main(){
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),&csbi);
+	CONSOLE_SCREEN_BUFFER_INFO csbi;GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),&csbi);
 	c=csbi.srWindow.Right-csbi.srWindow.Left+1; r=csbi.srWindow.Bottom-csbi.srWindow.Top+1;
 	Z0=(c/2.0)/tan((90/2.0)*3.14159265/180.0);
 	while(1){
