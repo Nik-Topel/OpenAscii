@@ -32,8 +32,7 @@ void draw_tri(char i,float x1,float y1,float x2,float y2,float x3,float y3){
 	float diff_x=x3-x2,diff_y=y3-y2,interval_x=diff_x/(points+1),interval_y=diff_y/(points+1);
 	for(int x=1;x<=points;x++){draw_line(i,x1,y1,x2+interval_x*x,y2+interval_y*x);}}
 void draw_frame(){
-	draw_background(' ');
-	draw_tri('#',rl(-0.35,c),rl(-0.35,r),rl(0,c),rl(0.35,r),rl(0.35,c),rl(-0.35,r));
+	//insert functions to draw
 	crs();
 	printf(f);}
 int main(){
