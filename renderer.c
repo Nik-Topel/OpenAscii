@@ -4,8 +4,8 @@
 double Z0;char f[30000];
 int c,r;
 int rl(float i,int p){return(i/(1.0/(p-0.5)))+(p/2);};
-int* perspective(float x,float y,float z){
-	int o[3]={x*Z0/(Z0+z),y*Z0/(Z0+z),z};return o;}
+//int* perspective(float x,float y,float z){
+	//int o[3]={x*Z0/(Z0+z),y*Z0/(Z0+z),z};return o;}
 void crs(){
 	HANDLE h=GetStdHandle(STD_OUTPUT_HANDLE);COORD coord;coord.X=0;coord.Y=0;
 	SetConsoleCursorPosition(h,coord);}
@@ -33,8 +33,7 @@ void draw_tri(char i,float x1,float y1,float x2,float y2,float x3,float y3){
 	for(int x=1;x<=points;x++){draw_line(i,x1,y1,x2+interval_x*x,y2+interval_y*x);}}
 void draw_frame(){
 	//insert functions to draw
-	crs();
-	printf(f);}
+	crs();printf(f);}
 int main(){
 	CONSOLE_SCREEN_BUFFER_INFO csbi;GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),&csbi);
 	c=csbi.srWindow.Right-csbi.srWindow.Left+1; r=csbi.srWindow.Bottom-csbi.srWindow.Top+1;
