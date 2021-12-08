@@ -1,4 +1,4 @@
-##include<stdio.h>
+#include<stdio.h>
 #include<math.h>
 #ifdef __unix__
 #include <sys/ioctl.h>
