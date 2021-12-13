@@ -77,10 +77,9 @@ int main(int argc,char *argv[]){
         #endif
         perspective=(c/2.0)/tan((90/2.0)*3.14159265/180.0);
         while(1){
-                draw(argv);
                 #ifdef __unix__
                 usleep(100);
                 #elif defined(_WIN32) || defined(WIN32)
                 Sleep(100);
                 #endif
-                }}
+                draw(argv);}}
