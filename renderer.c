@@ -55,8 +55,8 @@ void draw_triangle(char i,float x1,float y1,float x2,float y2,float x3,float y3)
         for(int x=1;x<=points;x++){
                 draw_line(i,x1,y1,x2+interval_x*x,y2+interval_y*x);}}
 void draw(char *args[100]){
-        draw_background(args[1]);
         if(argv = 1){
+                draw_background(args[1]);
                 for(x=1;x<(sizeof(args)-2);x++){
                         if(args[x][1]="r"){
                                 draw_rectangle(args[x][2],real(argument_parser(3,args[x]),columns),real(argument_parser(8,args[x]),rows),real(argument_parser(13,args[x]),columns),real(argument_parser(18,args[x]),rows));}
