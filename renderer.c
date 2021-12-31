@@ -10,6 +10,8 @@
 double perspective;
 char buffer[30000];
 int columns,rows;
+float sq(float x){
+        return x*x;}
 int real(float input,int length){
         return(input/(1.0/(length-0.5)))+(length/2);}
 void set_perspective(float x,float y,float z){
@@ -24,7 +26,7 @@ void draw_line(char i,float x1,float x2,float y1,float y2){
         if(x2<x1){
                 float tmp=x2;
                 x2=x1,x1=tmp;}
-        if(sqrt((y2-y1)*(y2-y1))<=sqrt((x2-x1)*(x2-x1))){
+        if(y2-y1<=x2-x1){
                 for(int x=x1;x<x2;x++){
                         int y=(((x-x1)/(x2-x1))*(y2-y1))+y1+0.5;
                         draw_pixel(i,x,y);}}
@@ -34,7 +36,7 @@ void draw_line(char i,float x1,float x2,float y1,float y2){
                         draw_pixel(i,y,x);}}}
 void draw_triangle(char i,float x1,float x2,float x3,float y1,float y2,float y3){
         draw_line(i,x1,x2,y1,y2),draw_line(i,x2,x3,y2,y3),draw_line(i,x3,x1,y3,y1);
-        int points=sqrt(((x3-x2)*(x3-x2))+((y3-y2)*(y3-y2)))*1.333;
+        int points=sqrt((sq(x3-x2))+(sq(y3-y2)))*1.333;
         float interval_x=(x3-x2)/(points),interval_y=(y3-y2)/(points);
         for(int x=0;x<=points;x++){
                 draw_line(i,x1,x2+interval_x*x,y1,y2+interval_y*x);}}
@@ -43,6 +45,11 @@ void draw_triangle_perspective(char i,int x1,int x2,int x3,int y1,int y2,int y3,
         set_perspective(x2,y2,z2);
         set_perspective(x3,y3,z3);
         draw_triangle(i,x1,x2,x3,y1,y2,y3);}
+void draw_tetrahedron(char i,int x1,int x2,int x3,int x4,int y1,int y2,int y3,int y4,int z1,int z2,int z3,int z4){
+        draw_triangle_perspective(i,x1,x2,x3,y1,y2,y3,z1,z2,z3);
+        draw_triangle_perspective(i,x4,x2,x3,y4,y2,y3,z4,z2,z3);
+        draw_triangle_perspective(i,x1,x4,x3,y1,y4,y3,z1,z4,z3);
+        draw_triangle_perspective(i,x1,x2,x4,y1,y2,y4,z1,z2,z4);}
 void draw_rectangle(char i,int x1,int x2,int x3,int x4,int y1,int y2,int y3,int y4){
         draw_triangle(i,x1,x2,x3,y1,y2,y3);
         draw_triangle(i,x1,x4,x3,y1,y4,y3);}
