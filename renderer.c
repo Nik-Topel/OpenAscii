@@ -23,23 +23,27 @@ void draw_background(char i){
 void draw_pixel(char i,int x,int y){
         buffer[(((rows-(y+1))*columns)+x)]=i;}
 void draw_line(char i,float x1,float x2,float y1,float y2){
-        if(x2<x1){
-                float tmp=x2;
-                x2=x1,x1=tmp;}
-        if(y2-y1<=x2-x1){
-                for(int x=x1;x<x2;x++){
-                        int y=(((x-x1)/(x2-x1))*(y2-y1))+y1+0.5;
+        int dir=1;
+        float xdif=sqrt(sq(x2-x1)),ydif=sqrt(sq(y2-y1));
+        if(ydif<=xdif){
+                if(x2<x1){
+                        dir=-1;}
+                for(int x=x1;x>=x2;x+=dir){
+                        int y=(((x-x1)/xdif)*ydif)+y1;
                         draw_pixel(i,x,y);}}
         else{
-                for(int x=y1;x<y2;x++){
-                        int y=(((x-y1)/(y2-y1))*(x2-x1))+x1+0.5;
+                if(y2<y1){
+                        dir=-1;}
+                for(int x=y1;x>=y2;x+=dir){
+                        int y=(((x-y1)/ydif)*xdif)+x1;
                         draw_pixel(i,y,x);}}}
 void draw_triangle(char i,float x1,float x2,float x3,float y1,float y2,float y3){
         draw_line(i,x1,x2,y1,y2),draw_line(i,x2,x3,y2,y3),draw_line(i,x3,x1,y3,y1);
-        int points=sqrt((sq(x3-x2))+(sq(y3-y2)))*1.333;
-        float interval_x=(x3-x2)/(points),interval_y=(y3-y2)/(points);
-        for(int x=0;x<=points;x++){
-                draw_line(i,x1,x2+interval_x*x,y1,y2+interval_y*x);}}
+        //int points=sqrt((sq(x3-x2))+(sq(y3-y2)));
+        //float interval_x=(x3-x2)/(points),interval_y=(y3-y2)/(points);
+        //for(int x=0;x<=points;x++){
+        //      draw_line(i,x1,x2+interval_x*x,y1,y2+interval_y*x);}}
+        }
 void draw_triangle_perspective(char i,int x1,int x2,int x3,int y1,int y2,int y3,int z1,int z2,int z3){
         set_perspective(x1,y1,z1);
         set_perspective(x2,y2,z2);
@@ -69,8 +73,9 @@ void draw_cube(char i,int x1,int x2,int x3,int x4,int x5,int x6,int x7,int x8,in
 void draw(){
         draw_background(' ');
         //draw calls here!!!
-        //draw_triangle('X',real(-0.25,columns),real(0,columns),real(0.25,columns),real(-0.25,rows),real(0.25,rows),real(-0.25,rows));
-        draw_rectangle('X',real(-0.25,columns),real(-0.25,columns),real(0.25,columns),real(0.25,columns),real(-0.25,rows),real(0.25,rows),real(0.25,rows),real(-0.25,rows));
+        draw_triangle('X',real(-0.25,columns),real(0,columns),real(0.25,columns),real(-0.25,rows),real(0.25,rows),real(-0.25,rows));
+        //draw_rectangle('X',real(-0.25,columns),real(-0.25,columns),real(0.25,columns),real(0.3,columns),real(-0.25,rows),real(0.25,rows),real(0.25,rows),real(-0.3,rows));
+        draw_line('X',real(0,columns),real(0.25,columns),real(0.25,rows),real(-0.25,rows));
         #ifdef __unix__
         printf("\033[%d;%dH", (0), (0));
         #elif defined(_WIN32) || defined(WIN32)
